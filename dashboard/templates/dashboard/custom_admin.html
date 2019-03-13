@@ -1,0 +1,30 @@
+<h2>ADD many users to a Batch</h2>
+<p>{{ msg }}</p>
+<form action="{% url 'dashboard:CustomAdmin' %}" method="post">
+    {% csrf_token %}
+    <select name="batch">
+        {% for batch in batch_list %}
+            <option value="{{ batch.id }}">{{ batch.Batch_Name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Submit</button><br>
+    <h3>Student List</h3>
+        {% for student in student_list %}
+                <input type="checkbox" name="student_list" value="{{ student.id }}">{{ student.username }}<br>
+        {% endfor %}
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

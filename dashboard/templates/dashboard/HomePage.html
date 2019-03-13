@@ -1,0 +1,148 @@
+{% extends 'dashboard/base.html' %}
+{% block pagecontent %}
+{% load static %}
+{% load staticfiles %}
+    <!--------- DASHBOARD ICONS-------------->
+    <div class="dashIcons">
+ <div class="row">
+     <div></div>
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        <div class="col-md-12 pd0">
+                <div class="col-md-3">
+                    <div class="col-md-5">
+                            <img src="{% static 'dashboard/images/scores.jpg' %}" alt="Smiley face" height="100" width="100" style="margin-top:100px;">
+                         <div class="col-md-7">
+                           <b>Goal</b>
+                         </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-5">
+
+                        <img src="{% static 'dashboard/images/reporting-icon.png' %}" alt="Smiley face" height="110" width="110" style="margin-top:100px;">
+                        <div class="col-md-7">
+                            <b>Tests</b>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="col-md-5">
+                        <img src="{% static 'dashboard/images/progress-icon.png' %}" alt="Smiley face" height="100" width="100" style="margin-top:100px;">
+                        <div class="col-md-7">
+                            <b>Progress</b>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <div class="col-md-5">
+                            <img src="{% static 'dashboard/images/completed.png' %}" alt="Smiley face" height="100" width="100" style="margin-top:100px;">
+                        <div class="col-md-7">
+                            <b>Status</b>
+                        </div>
+                    </div>
+                </div>
+        </div>
+	</div>
+
+
+ <!---------TABLE CONTAINER DIV --------->
+
+{% if is_admin %}
+     <div class="container-table100">
+	 <div class="wrap-table100">
+                <div class="table100 ver1 m-b-110">
+                    <div class="table100-head">
+                        <table>
+                            <thead>
+                                <tr class="row100 head">
+                                    <th class="cell100 column1">sl no</th>
+                                    <th class="cell100 column2">Test Name</th>
+                                    <th class="cell100 column3">Status Description</th>
+                                    <th class="cell100 column4">Status</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="table100-body js-pscroll">
+                        <table>
+                            <tbody>
+                                {% for string in test_status_string %}
+                                <tr class="row100 body">
+                                    <td class="cell100 column1">{{ forloop.counter }}</td>
+                                    <td class="cell100 column2">{{ string.0 }}</td>
+                                    <td class="cell100 column3">{{ string.1 }}</td>
+                                    <td class="cell100 column4">{{ string.2 }}</td>
+                                </tr>
+                            {% endfor %}
+                            <tr class="row100 body">
+                                <td class="cell100 column1">
+                                    <a href="{% url 'dashboard:CustomAdmin' %}" style="color: black" class="btn btn-primary">Assign Batches to users</a>
+                                </td>
+                            </tr>
+                              </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% else %}
+     <div class="container-table100">
+	 <div class="wrap-table100">
+                <div class="table100 ver1 m-b-110">
+                    <div class="table100-head">
+                        <table>
+                            <thead>
+                                <tr class="row100 head">
+                                    <th class="cell100 column1">Test No.</th>
+                                    <th class="cell100 column2">Course Name</th>
+                                    <th class="cell100 column3">Pass Percentage</th>
+                                    <th class="cell100 column4">Action</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="table100-body js-pscroll">
+                        <table>
+                            <tbody>
+                            {% if testbatch %}
+                                {% for tb in testbatch %}
+                                    <tr class="row100 body">
+                                        <td class="cell100 column1">{{ tb.Test.id }}</td>
+                                        <td class="cell100 column2">{{ tb.Test.Test_Name }}</td>
+                                        <td class="cell100 column3">{{ tb.Test.Pass_percentage }} %</td>
+                                        <td class="cell100 column4">
+                                            <form>
+                                                <a href="{% url 'testApp:index' tb.Test.id %}" target="_blank"
+                                           onclick="window.open(this.href,'width=640, height=screen.height, menubar=no')">
+                                                <button type=button style="width:75%" class="btn btn-default">
+                                                        Start Test
+                                                </button>
+                                                </a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="row100 body">
+                                    <td class="cell100 column1">No Tests Available</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endif %}
+
+    </div>
+ </div>
+{% endblock %}

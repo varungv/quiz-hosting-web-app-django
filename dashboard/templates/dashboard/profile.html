@@ -1,0 +1,103 @@
+{% extends 'dashboard/base.html' %}
+{% block pagecontent %}
+    {% load static %}
+    {% load staticfiles %}
+    <div class="profile">
+ 	<div class="row">
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+
+        <h2>Personal Information</h2>
+
+        <form class="form-horizontal" role="form">
+		 <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" value="{{ user.username }}" disabled>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{ user.first_name }}" disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{ user.last_name }}" disabled>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{ user.email }}" disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Batch:</label>
+            <div class="col-lg-8">
+              {% for batch in batch_list %}
+                <input class="form-control" type="text" value="{{ batch.Batch }}" disabled>
+              {% endfor %}
+            </div>
+          </div>
+        <hr>
+        <div class="form-group">
+            <label class="col-md-3 control-label"><i>Coming Soon</i></label>
+          </div>
+		<div class="form-group">
+            <label class="col-md-3 control-label">Phone No:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" value="xxxxxxxxxx"  disabled>
+            </div>
+          </div>
+
+		<div class="form-group">
+            <label class="col-md-3 control-label">Date Of Birth:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="date" value="27/01/2018"  disabled>
+            </div>
+          </div>
+
+		<div class="form-group">
+            <label class="col-md-3 control-label">Gender:</label>
+            <div class="col-md-8">
+             <label class="radio-inline">
+                <input type="radio" name="optradio"  disabled>Female
+             </label>
+             <label class="radio-inline">
+                <input type="radio" name="optradio"  disabled>Male
+             </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label">Change Password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="11111122333"  disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="11111122333"  disabled>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+                <button class="btn btn-default" disabled>Save Changes</button>
+              <span></span>
+              <a href="{% url 'dashboard:homepage' %}" class="btn btn-default">Cancel</a>
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+ </div>
+
+{% endblock %}

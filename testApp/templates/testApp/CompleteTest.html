@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <link rel="icon" type="image/png" href="images/icons/favicon1.ico"/>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+    .table{
+    margin-top:12px;
+    border: solid;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        padding: 9px 9px;
+        margin-bottom: 0;
+        padding-right: 17px;
+        margin-right: 8px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.42857143;
+        text-align: center;
+        white-space: nowrap;
+
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+        cursor: pointer;
+    height:40px;
+    width:40px;
+    }
+
+    .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: auto;
+    }
+    </style>
+</head>
+<body>
+
+
+
+<div class="container-fluid text-center">
+
+<div class="col-sm-12 sidenav">
+  <div class="well">
+      <table style="width: 100%">
+          <tr>
+              <td><div id="chart_div_1"></div></td>
+              <td><div id="chart_div_2"></div></td>
+          </tr>
+      </table>
+  </div>
+</div>
+  <div class="row content">
+
+    <div class="col-sm-12 text-left">
+      <div class="summary">
+	  <h5>Total Test Score: {{ total_marks_obtained }}</h5>
+	  <hr>
+	 <h5>Total Time Taken: {{ total_time_taken.timetaken__sum }}</h5>
+	  <hr>
+	<h5>Subject Wise Marks:</h5>
+
+<table class="table">
+
+<thead>
+<tr>
+<th>Subject Name</th>
+<th>Marks Obtained</th>
+<th>Total Right</th>
+<th>Total Wrong</th>
+<th>Time Taken</th>
+</tr>
+</thead>
+<tbody>
+{% for subject in subject_wise_marks %}
+    <tr>
+        <td>{{ subject.0 }}</td>
+        <td>{{ subject.1 }}</td>
+        <td>{{ subject.2 }}</td>
+        <td>{{ subject.3 }}</td>
+        <td>{{ subject.4.timetaken__sum }}</td>
+    </tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+</div>
+<h3 style="background: orange">You Got: {{ obtained_marks }} out of {{ Total_marks }}</h3>
+
+</div>
+</div>
+</body>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(initChart);
+        function initChart() {
+            // initialization of graphs
+            data_1 = [
+              ['Subject', 'marks'],
+              ['Total wrong', {{ wrong_marks }}]
+            ];
+            data_2 = [['Question', 'Time Taken']];
+
+            {% for subject in subject_wise_marks %}
+                data_1.push(['{{ subject.0 }}', {{ subject.1 }}]);
+                data_2.push(['{{ subject.0 }}', {{ subject.4.timetaken__sum }}]);
+            {% endfor %}
+
+            data_1 = google.visualization.arrayToDataTable(data_1);
+            data_2 = google.visualization.arrayToDataTable(data_2);
+
+            Chart_1 = new google.visualization.PieChart(document.getElementById('chart_div_1'));
+            Chart_1.draw(data_1, {'title': 'Marks Obtained Graph'});
+
+            Chart_2 = new google.visualization.PieChart(document.getElementById('chart_div_2'));
+            Chart_2.draw(data_2, {'title': 'Time per subject Graph'});
+          };
+
+</script>
+</html>

@@ -1,0 +1,23 @@
+.btn {
+    display: inline-block;
+    padding: 9px 14px;
+    margin-bottom: 0;
+    padding-right: 17px;
+    margin-right: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+
+}
+
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: auto;
+}

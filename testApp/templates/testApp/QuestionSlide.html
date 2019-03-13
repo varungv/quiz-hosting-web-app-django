@@ -1,0 +1,462 @@
+<!-------Page where questions are there from 1 to 50------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ test.Test_Name }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% load static %}
+  {% load staticfiles %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/png" href="images/icons/favicon1.ico"/>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+    /* Style tab links */
+	.tablink {
+		background-color:#f1f1f1 ;
+		color: #337ab7;;
+		float: left;
+		outline: none;
+		cursor: pointer;
+		padding: 14px 16px;
+		font-size: 17px;
+		width: 25%;
+	}
+
+	.tablink:hover {
+		background-color: #ccc;
+	}
+	.tablink {
+    margin-top: 10px;
+    background-color: #f1f1f1;
+    color: #337ab7;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 9px;
+    font-size: 17px;
+    width: 44%;
+    margin-left: 11px;
+    height: 42px;
+    font-size: 12px;
+	}
+
+	.button2 {
+		background-color: red;
+		border: none;
+		color: white;
+		padding: 13px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 10px;
+		margin: 14px 2px;
+		cursor: pointer;
+		width: 28px;
+	}
+  </style>
+</head>
+<body>
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div id="questions_slide" class="col-sm-9 text-left">
+      <h1>{{ test.Test_Name }}</h1>
+      <hr>
+     <div id="textbox">
+          <p class="alignleft">Question Number <span id="question_number_container"></span></p>
+          <p class="alignright">Marking +2,-.50</p>
+    </div>
+      <hr>
+				<p>
+					<div id="question_text"></div>
+					<div class="img-container" id='image-container'>
+					  <img id="question_img" src=''>
+					</div>
+				</p>
+				<div id="options">
+					<div class="form-check">
+						<label>
+							<input type="radio" value=1 id='radio_option_1' name="radio_option">
+							<span class="label-text" id="option_1_text">>
+							</span>
+						</label>
+					</div>
+					<div class="form-check">
+						<label>
+							<input type="radio" value=2 id='radio_option_2' name="radio_option">
+							<span class="label-text" id="option_2_text">
+							</span>
+						</label>
+					</div>
+					<div class="form-check">
+						<label>
+							<input type="radio" value=3 id='radio_option_3' name="radio_option">
+							<span class="label-text" id="option_3_text"></span>
+						</label>
+					</div>
+					<div class="form-check">
+						<label>
+							<input type="radio" value=4 id='radio_option_4' name="radio_option">
+							<span class="label-text" id="option_4_text"></span>
+						</label>
+					</div>
+				</div>
+
+
+	  <hr>
+	   <button type="button" class="btn" onclick="mark_question()">Mark for review</button>
+	   <button type="button"  class="btn" onclick='clear_selection()'>Erase Response</button>
+	   <button class="btn btn-default" onclick='change_question("next_question")'>Save & Next</button>
+	 </div>
+    <div id="question_paper_slide" class="col-sm-9 text-left" hidden>
+      <h1>Question Paper:</h1>
+    </div>
+  	<div id="submit_confirm_slide" hidden class="col-sm-9 text-left">
+      <div class="summary">
+
+	 <h2>Review Your Questions</h2>
+	  <hr>
+
+<table class="table">
+
+<thead>
+<tr>
+<th>Subject Name</th>
+<th>Total Questions</th>
+<th>Answered</th>
+<th>Not answered</th>
+<th>Marked</th>
+<th>Marked and Answered</th>
+</tr>
+</thead>
+<tbody id="review_table">
+</tbody>
+</table>
+</div>
+<form action="{% url 'testApp:CompleteTest' %}" method="post">
+    {% csrf_token %}
+	<button type="button" class="btn btn-default" onclick="display_question_slide()">Back</button>
+	<textarea id="json_container" name="json_container" hidden></textarea>
+	<input type="checkbox" name="complete_test" id="complete_test" hidden>
+    <button type="submit" class="btn btn-success" id='final_submit' onclick="document.getElementById('complete_test').checked = true;">
+        Submit & Finish
+    </button>
+
+    <button type="submit" class="btn btn-success" id="pause" onclick="document.getElementById('complete_test').checked = false; ">
+        Pause Test
+    </button>
+</form><br><br>
+ </div>
+    <div class="col-sm-3 sidenav">
+      <div class="well">
+	    <img src="{% static 'dashboard/images/profilepic.jpg' %}" height="60px;" width="60px;" class="avatar img-circle" alt="avatar">
+        <p>{{ request.user }}</p>
+		<p>Timer: <span id="timer_box"></span></p>
+      </div>
+		<div>
+		{% for subject in subject_array %}
+			<button class="tablink" onclick="change_question({{ subject.1 }})">{{ subject.0 }}</button>
+		{% endfor %}
+		</div>
+			<br>
+		<div class="custom">
+		  {% for i in  range %}
+			<button onclick='change_question({{ i }})' id="side_button_{{ i }}" class="btn button4">{{ forloop.counter }}</button>
+			{% if i|add:'1'|divisibleby:'5' %}
+				<br>
+			{% endif %}
+		  {% endfor %}
+		  <br><br>
+          <button class="btn btn-default" onclick="show_question_paper();">Question Paper</button>
+ <!----------Submit page which has Over all Summary Page-------->
+<div style="display: inline">
+		<button type="submit" onclick='create_JSON()' class="btn btn-success">Submit</button>
+</div><br>
+<button class="button1 button1"></button><span>Answered</span>
+<button class="button2 button1"></button><span>Not Answered</span><br><br>
+<button class="button3 button1"></button><span>Marked</span>
+<button class="button4 button1"></button><span>Not Attempted</span>
+
+      </div>
+    </div>
+  </div>
+ </div>
+</body>
+
+
+<style>
+.btn-primary {
+    display: inline-block;
+    padding: 9px 9px;
+    margin-bottom: 0;
+    padding-right: 17px;
+    margin-right: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+height:40px;
+width:40px;
+}
+
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: auto;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/test.css' %}">
+<script>
+// [q_id, q_text, q_img, op_1, op_2, op_3, op_4, selected option, Time taken, Subject Name, Marked y/N]
+var Data_array = {{ Data_array|safe }};
+var Total_questions = Data_array.length;
+var current_question_index =0;
+var countdown_time = {{ time_remaining }}
+var time1=countdown_time;
+
+function change_question(to_question_index){
+    document.getElementById('questions_slide').hidden = false;
+    document.getElementById('question_paper_slide').hidden = true;
+	document.getElementById('submit_confirm_slide').hidden = true;
+	document.getElementById('review_table').innerHTML = '';
+	// update the previously selected question data
+  var options = document.getElementsByName('radio_option');
+  var option_value=5;
+  for (var i = 0; i < options.length; i++){
+  	if(options[i].checked){
+        	option_value = options[i].value;
+		options[i].checked = false;
+		break;
+    	}
+  }
+  if(to_question_index == 0 && current_question_index == 0){
+  }
+  else{
+    Data_array[current_question_index][7] = option_value;
+  }
+  time_elapased = time1 - countdown_time;
+  Data_array[current_question_index][8] = Data_array[current_question_index][8] + time_elapased;
+  time1 = countdown_time
+  if(to_question_index == 'next_question'){
+	to_question_index = current_question_index + 1;
+  }
+  if(to_question_index >= Total_questions){
+	to_question_index = 0;
+  }
+
+  // change the design of the side nav icons
+  if(Data_array[current_question_index][7] < 5){
+    document.getElementById('side_button_' + current_question_index).className = 'btn button1';
+  }
+  else{
+    if(Data_array[current_question_index][10] == 'y'){
+        document.getElementById('side_button_' + current_question_index).className = 'btn button3';
+    }
+    else{
+        document.getElementById('side_button_' + current_question_index).className = 'btn button2';
+    }
+  }
+  if(Data_array[current_question_index][10] == 'yy'){
+        document.getElementById('side_button_' + current_question_index).className = 'btn button3';
+        Data_array[current_question_index][10] = 'y';
+  }
+  // Pull the requested question data into the template
+  document.getElementById('question_text').innerHTML = (to_question_index + 1)+ ') ' + Data_array[to_question_index][1];
+  document.getElementById('image-container').innerHTML = '';
+  if(Data_array[to_question_index][2] !== ''){
+	var x = document.createElement('IMG');
+	x.id = 'question_img';
+	x.src = Data_array[to_question_index][2];
+	document.getElementById('image-container').appendChild(x);
+  }
+  document.getElementById('option_1_text').innerHTML = Data_array[to_question_index][3];
+  document.getElementById('option_2_text').innerHTML = Data_array[to_question_index][4];
+  document.getElementById('option_3_text').innerHTML = Data_array[to_question_index][5];
+  document.getElementById('option_4_text').innerHTML = Data_array[to_question_index][6];
+  current_question_index = to_question_index;
+  document.getElementById('question_number_container').innerHTML = to_question_index + 1;
+//select radio button
+if(parseInt(Data_array[to_question_index][7]) <= options.length){
+	options[Data_array[to_question_index][7] - 1].checked = true;
+}
+};
+change_question(0)
+
+function clear_selection(){
+
+  var options = document.getElementsByName('radio_option');
+  var option_value = 0;
+  for (var i = 0; i < options.length; i++){
+  	if(options[i].checked){
+        	option_value = options[i].value;
+		options[i].checked = false;
+		break;
+    	}
+  }
+	Data_array[current_question_index][7] = 5;
+};
+
+function create_JSON(){
+	var json = JSON.stringify(Data_array);
+	document.getElementById('json_container').value = json;
+	hide_all_slides();
+	document.getElementById('submit_confirm_slide').hidden = false;
+
+	var index = 0;
+    var previous_subject='', current_subject='';
+    var table = document.getElementById('review_table');
+
+    for(var i = 0; i < {{ subject_count }}; i++){
+        var row = table.insertRow(i);
+        var cell0 = row.insertCell(0);
+        cell0.innerHTML = Data_array[index][9];
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        var cell3 = row.insertCell(3);
+        var cell4 = row.insertCell(4);
+        var cell5 = row.insertCell(5);
+        var cell6 = row.insertCell(6);
+
+        var total_questions = 0;
+        var total_answered=0;
+        var total_not_answered=0;
+        var total_marked=0;
+        var total_Marked_Answered=0;
+        for (var j = index; j < Data_array.length; j++){
+            current_subject = Data_array[index][9];
+            if(current_subject !== previous_subject){
+                if(index !== 0){
+                    previous_subject = Data_array[index][9];
+                    break;              // Break the loop
+                }
+            }
+            if(Data_array[index][7] < 5){
+                total_answered = total_answered + 1;
+                if(Data_array[index][10]=='y' || Data_array[index][10]=='yy' ){
+                    total_Marked_Answered = total_Marked_Answered + 1;
+                }
+            }
+            if(Data_array[index][10]=='y' || Data_array[index][10]=='yy' ){
+                total_marked = total_marked + 1;
+            }
+            previous_subject = Data_array[index][9];
+            index = index + 1;
+            total_questions = total_questions + 1;
+	    }
+	    cell1.innerHTML = total_questions;
+        cell2.innerHTML = total_answered;
+        cell3.innerHTML = total_questions - total_answered;
+        cell4.innerHTML = total_marked;
+        cell5.innerHTML = total_Marked_Answered;
+    }
+};
+function countdown(){
+        setTimeout(countdown, 1000)
+        countdown_time --;
+        var mins = Math.floor(countdown_time/60);
+        var secs = countdown_time%60;
+        document.getElementById('timer_box').innerHTML = mins + ' Mins ' + secs + ' Secs';
+        if (countdown_time < 0){
+        	documents.getElementById('final_submit').click();
+            // window.location = "{% url 'testApp:CompleteTest' %}";
+            // countdown_time = 0;
+        }
+};
+countdown();
+function display_question_slide(){
+	hide_all_slides();
+	document.getElementById('questions_slide').hidden = false;
+    document.getElementById('review_table').innerHTML = '';
+};
+function mark_question(){
+    Data_array[current_question_index][10] = 'yy';
+    // should not change to next question
+    // change_question("next_question");
+};
+refresh_side_bar();
+function refresh_side_bar(){
+   for(var i=0; i < Data_array.length; i++){
+
+      // change the design of the side nav icons
+      if(Data_array[i][7] < 5){
+        document.getElementById('side_button_' + i).className = 'btn button1';
+      }
+      else{
+        if(Data_array[i][10] == 'y'){
+            document.getElementById('side_button_' + i).className = 'btn button3';
+        }
+        else{
+            document.getElementById('side_button_' + i).className = 'btn button2';
+        }
+      }
+      if(Data_array[i][10] == 'yy'){
+            document.getElementById('side_button_' + i).className = 'btn button3';
+      }
+   }
+};
+build_question_paper();
+function build_question_paper(){
+	qp_slide = document.getElementById('question_paper_slide');
+	qp_slide.hidden = true;
+	var html = '';
+    html = '<h1>Question Paper:</h1><hr>';
+    // [q_id, q_text, q_img, op_1, op_2, op_3, op_4, selected option, Time taken, Subject Name, Marked y/N]
+	for(var i=0; i < Data_array.length; i++){
+	    html = html + '<div>' + (i + 1) + '.) ' + Data_array[i][1] + '</div>';
+	    html = html + '<div>' + 'a. ' + Data_array[i][3] + '</div>';
+	    html = html + '<div>' + 'b. ' + Data_array[i][4] + '</div>';
+	    html = html + '<div>' + 'c. ' + Data_array[i][5] + '</div>';
+	    html = html + '<div>' + 'd. ' + Data_array[i][6] + '</div>';
+        html = html + '<hr>';
+	}
+	qp_slide.innerHTML = html;
+	console.log(html);
+}
+function hide_all_slides(){
+    document.getElementById('questions_slide').hidden = true;
+    document.getElementById('question_paper_slide').hidden = true;
+    document.getElementById('submit_confirm_slide').hidden = true;
+}
+function show_question_paper(){
+    hide_all_slides();
+    document.getElementById('question_paper_slide').hidden = false;
+}
+</script>
+</html>

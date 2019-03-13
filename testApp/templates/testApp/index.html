@@ -1,0 +1,198 @@
+<!---------Instruction Page-------------->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ test.Test_Name }}</title>
+    {% load static %}
+    {% load staticfiles %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+	  function toggle_submit(){
+	  	if(document.getElementById('submit_button').disabled){
+	  		document.getElementById('submit_button').disabled = false;
+	  	}
+	  	else{
+	  		document.getElementById('submit_button').disabled = true;
+	  	}
+	  }
+  </script>
+	<link rel="icon" type="image/png" href="images/icons/favicon1.ico"/>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+  </style>
+</head>
+<body>
+
+
+
+<div class="container-fluid text-center">
+  <div class="row content">
+
+    <div class="col-sm-9 text-left">
+      <h1>{{ test.Test_Name }}</h1>
+      <hr>
+
+   <div class="lt-container main-container">
+
+
+    						<div class="col-md-12 tl-main">
+    							<div class="tl-page1 ">
+    								<div class="tl-content" style="height: 781px;">
+    									<div id="instEN" class="" style="height: 98.9%; width: 100%; overflow: auto;"><p align="center"><strong><span><b>Please read the following instructions carefully</b></span></strong></p>
+											<p><strong><u>General Instructions:</u></strong> <br></p>
+											<ol>
+											<li>Total of 30 minutes duration will be given to attempt all the questions</li>
+											<li>The clock has been set at the server and the countdown timer at the top right corner of your screen will display the time remaining for you to complete the exam. When the clock runs out the exam ends by default - you are not required to end or submit your exam. </li>
+											<li>The question palette at the right of screen shows one of the following statuses of each of the questions numbered:
+											<table>
+											<tbody>
+											<tr>
+											<td valign="top" class="btn-in-inst btn_nv"><button class="button1 button1"></button></td>
+											<td>You have answered the question.</td></tr></tbody></table>
+											<table>
+											<tbody>
+											<tr>
+											<td valign="top" class="btn-in-inst btn_na"><button class="button2 button1"></button></td>
+											<td>You have not answered the question.</td></tr></tbody></table>
+											<table>
+											<tbody>
+											<tr>
+											<td valign="top" class="btn-in-inst btn_a"><button class="button3 button1"></button></td>
+											<td>You have NOT answered the question but have marked the question for review. </td></tr></tbody></table>
+											<table>
+											<tbody>
+											<tr>
+											<td valign="top" class="btn-in-inst btn_m"><button class="button4 button1"></button></td>
+											<td>You have NOT visited the question yet.</td></tr></tbody></table>
+											<!--<table>
+											<tbody>
+											<tr>
+											<td valign="top" class="btn-in-inst btn_ma"><button id="tooltip_reviewanswered">9</button></td>
+											<td>You have answered the question but marked it for review. </td></tr></tbody></table>-->
+											</li>
+											<li style="LIST-STYLE-TYPE: none">The Marked for Review status simply acts as a reminder that you have set to look at the question again. <font color="red"><i>If an answer is selected for a question that is Marked for Review, the answer will be considered in the final evaluation.</i></font></li></ol>
+											<p><br><b><u>Navigating to a question : </u></b></p>
+											<ol start="4">
+											<li>To select a question to answer, you can do one of the following:
+											<ol type="a">
+											<li>Click on the question number on the question palette at the right of your screen to go to that numbered question directly. Note that using this option does NOT save your answer to the current question. </li>
+											<li>Click on Save and Next to save answer to current question and to go to the next question in sequence.</li>
+											<li>Click on Mark for Review and Next to save answer to current question, mark it for review, and to go to the next question in sequence.</li></ol></li>
+											<li>You can view the entire paper by clicking on the <b>Question Paper</b> button.</li></ol>
+											<p><br><b><u>Answering questions : </u></b></p>
+											<ol start="6">
+											<li>For multiple choice type question :
+											<ol type="a">
+											<li>To select your answer, click on one of the option buttons</li>
+											<li>To change your answer, click the another desired option button</li>
+											<li>To save your answer, you MUST click on <b>Save &amp; Next</b> </li>
+											<li>To deselect a chosen answer, click on the chosen option again or click on the <b>Clear Response</b> button.</li>
+											<li>To mark a question for review click on <b>Mark for Review &amp; Next</b>. <font color="red"><i>If an answer is selected for a question that is Marked for Review, the answer will be considered in the final evaluation. </i></font></li></ol></li>
+											<li>To change an answer to a question, first select the question and then click on the new answer option followed by a click on the <b>Save &amp; Next</b> button.</li>
+											<li>Questions that are saved or marked for review after answering will ONLY be considered for evaluation.</li></ol>
+											<p><br><b><u>Navigating through sections : </u></b></p>
+											<ol start="9">
+											<li>Sections in this question paper are displayed on the top bar of the screen. Questions in a section can be viewed by clicking on the section name. The section you are currently viewing is highlighted.</li>
+											<li>After clicking the <b>Save &amp; Next</b> button on the last question for a section, you will automatically be taken to the first question of the next section. </li>
+											<li>You can move the mouse cursor over the section names to view the status of the questions for that section. </li>
+											<li>You can shuffle between sections and questions anytime during the examination as per your convenience. </li></ol>
+										</div>
+
+
+ </div>
+</div>
+<hr>
+<form method="get" action="{% url 'testApp:QuestionsSlide' test.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-info" id="submit_button" disabled>Start Exam</button>
+</form>
+<div class="col-sm-9 col-md-6 col-lg-10">
+<p>
+<form>
+  <input type="checkbox" id="tandc" onclick="toggle_submit()">
+  <span class="inst">I have read and understood the instructions. All Computer Hardwares allotted to me are in proper working condition. I agree that I am not carrying any prohibited gadget like mobile phone etc. / any prohibited material with me into the exam hall.  I agree that in case of not adhering to the instructions, I will be disqualified from taking the exam.</span>
+</form>
+</p>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+
+
+<style>
+
+
+
+.btn-primary {
+    display: inline-block;
+    padding: 9px 9px;
+    margin-bottom: 0;
+    padding-right: 17px;
+    margin-right: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+height:40px;
+width:40px;
+}
+
+.sidenav {
+    padding-top: 20px;
+    background-color: #f1f1f1;
+    height: auto;
+}
+
+.inst{
+
+color:red;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/test.css' %}">
+</html>

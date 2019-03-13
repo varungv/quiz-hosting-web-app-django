@@ -1,0 +1,70 @@
+{% extends 'dashboard/base.html' %}
+{% block pagecontent %}
+    {% load static %}
+    {% load staticfiles %}
+     <div class="limiter">
+        <div class="container-table100">
+            <div class="wrap-table100">
+                <div class="table100 ver1 m-b-110">
+                    <div class="table100-head">
+                        <table>
+                            <thead>
+                                <tr class="row100 head">
+                                    <th class="cell100 column1">ExamId</th>
+                                    <th class="cell100 column2">Exam Name</th>
+                                    <th class="cell100 column3">Duration</th>
+                                    <th class="cell100 column4">Question</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="table100-body js-pscroll">
+                        <table>
+                            <tbody>
+                                {% if all_tests %}
+                                    {% for test in all_tests %}
+                                        <tr class="row100 body">
+                                            <td class="cell100 column1">{{ forloop.counter }}</td>
+                                            <td class="cell100 column2">{{ test.Test.Test_Name }}</td>
+                                            <td class="cell100 column3">
+                                                {% if test.result == 'pass' %}
+                                                    Solved
+                                                {% else %}
+                                                    {% if test.Status == 'completed' %}
+                                                        Attempted (failed)
+                                                    {% else %}
+                                                        Paused
+                                                    {% endif %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if test.Status == 'completed' %}
+                                                    <form method="get" action="{% url 'dashboard:testquestions' test.Test.id %}">
+                                                        <button type="submit" class="btn btn-success">View Report</button>
+                                                    </form>
+                                                {% else %}
+                                                    <a href="{% url 'testApp:index' test.Test.id %}" target="_blank" onclick="window.open(this.href, '_blank','width=640, height=screen.height, menubar=no')">
+                                                        <button type=button style="width:75%" class="btn btn-success">
+                                                                Resume Test
+                                                        </button>
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr class="row100 body">
+                                        <td class="cell100 column1">No Tests Available</td>
+                                    </tr>
+                                {% endif %}
+                             </tbody>
+                         </table>
+                     </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+{% endblock %}
+

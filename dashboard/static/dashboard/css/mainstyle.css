@@ -1,0 +1,255 @@
+.filter-bar {
+    background-color: rgba(153, 153, 153, 0.37);
+    padding-top: 5px;
+}
+
+.filter-bar select {
+    width: 100%;
+    height: 23px;
+}
+
+* {box-sizing: border-box}
+body {font-family: "Lato", sans-serif;}
+
+.container-fluid{
+	padding:0px;
+	background-repeat: no-repeat;
+    background-position: left-side;
+    background-size: left-side;
+	
+	
+}
+
+.dropdown-toggle
+{
+	
+float:right;	
+}
+
+
+/* Style the tab */
+.tab {
+    float: left;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    width: 20%;
+    height: 888px;
+	margin-top:70px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 22px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: left;
+    padding: 0px 12px;
+    border: 1px solid #ccc;
+    width: 80%;
+    border-left: none;
+    height: auto;
+	margin-top:52px;
+}  
+
+
+	.panel-group .panel {
+		border-radius: 5px;
+		border-color: #EEEEEE;
+        padding:0;
+	}
+
+	.panel-default > .panel-heading {
+		color: #fff;
+		 background-color: #7386d5;
+		border-color: #EEEEEE;
+	}
+
+	.panel-title {
+		font-size: 14px;
+	}
+
+	.panel-title > a {
+		display: block;
+		padding: 10px;
+		text-decoration: none;
+	}
+
+	.short-full {
+		float: right;
+		color: #fff;
+	}
+
+	
+	    background-color: rgba(0,0,0,.5);
+	
+	.panel-default > .panel-heading + .panel-collapse > .panel-body {
+		border: solid 1px #EEEEEE;
+        background-color: #ccc;
+		padding:10px;
+		
+        
+	}
+
+	
+	.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: #e7e7e7;
+	padding:10px;
+}
+	
+	
+	
+	
+	
+	@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+.panel-title > a:before {
+    float: right !important;
+    font-family: FontAwesome;
+    content:"\f068";
+    padding-right: 5px;
+}
+.panel-title > a.collapsed:before {
+    float: right !important;
+    content:"\f067";
+}
+.panel-title > a:hover, 
+.panel-title > a:active, 
+.panel-title > a:focus  {
+    text-decoration:none;
+}
+
+#td1{
+padding:6px;
+
+}
+
+
+.navbar-custom {
+	background-color:#7386D5;
+	
+	background-color: rgb(255, 255, 255);
+    box-shadow: inset -4px -1px 20px 20px rgba(0, 0, 0, 0.1);
+    color: #ffffff;
+    border-radius: 0;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}
+  
+.navbar-custom .navbar-nav > li > a {
+  	color:#fff;
+}
+
+.navbar-custom .navbar-nav > .active > a {
+    color: #ffffff;
+	background-color:transparent;
+}
+      
+.navbar-custom .navbar-nav > li > a:hover,
+.navbar-custom .navbar-nav > li > a:focus,
+.navbar-custom .navbar-nav > .active > a:hover,
+.navbar-custom .navbar-nav > .active > a:focus,
+.navbar-custom .navbar-nav > .open >a {
+    text-decoration: none;
+    background-color: white;
+	padding:15px;
+}
+     
+.navbar-custom .navbar-brand {
+  	color:#eeeeee;
+}
+.navbar-custom .navbar-toggle {
+  	background-color:#eeeeee;
+}
+.navbar-custom .icon-bar {
+  	background-color:#33aa33;
+}	
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 5px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+.btn-success {
+    
+	
+}
+
+.btn-success:hover
+{
+
+}
+
+.label-success {
+    background-color: #337ab7;;
+}
+
+
+.db-so {
+    display: flex;
+    width: 164px;
+    background-color:#ccc;
+    padding-top: 3px;
+}
+
+.db-so .col-md-5 {
+    font-size: 50px;
+    line-height: 40px;
+    text-align: right;
+    padding-right: 0px;
+}
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: 13;
+    margin-top: 15px;
+}
+
+p {
+    margin: 0px 0 3px;
+}
+
+.collapse navbar-collapse{
+	
+	
+    background-repeat: no-repeat;
+    background-position: left-side;
+    background-size: left-side;	
+	box-shadow: inset -4px -1px 20px 20px rgba(0, 0, 0, 0.1);
+	
+	
+}
+img {
+    vertical-align: middle;
+    margin-top: 36px;
+}
+

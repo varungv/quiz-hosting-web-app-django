@@ -1,0 +1,187 @@
+{% extends 'dashboard/base.html' %}
+{% block pagecontent %}
+{% load static %}
+{% load staticfiles %}
+    <main>
+
+  <input id="tab2" type="radio" name="tabs" checked>
+  <label for="tab2">Score</label>
+
+  <input id="tab3" type="radio" name="tabs">
+  <label for="tab3">Subject Wise</label>
+
+  <input id="tab4" type="radio" name="tabs">
+  <label for="tab4">Solutions</label>
+
+
+<section id="content2">
+
+   <div class="table-responsive">
+       <div id="graph"></div>
+     <table class="table">
+     <tbody>
+ <tr> <th>Max Score</th>
+ <td>{{ Total_marks }}</td> <th>Total Time</th>
+ <td>{{ Total_time }} mins</td> <th>Total Questions</th>
+ <td>{{ Total_questions }}</td> </tr>
+ <tr>
+ <th>Your Score</th>
+ <td>{{ user_marks }}</td>
+ <th>You Spent</th>
+ <td>{{ total_time_spent_min }} mins {{ total_time_spent_sec }} secs</td>
+ <th>Correct</th>
+ <td>{{ Total_correct }}</td>
+ </tr>
+ <tr>
+ <th>Percentage Scored</th>
+ <td>{{ percentage_scored }}%</td>
+ <th></th><td></td>
+ <th>Incorrect</th>
+ <td>{{ Total_incorrect }}</td> </tr>
+ <tr> <th>Rank</th>
+ <td>----</td><th></th>
+ <td></td>
+     <th>Unanswered Questions</th> <td>{{ Total_unanswered }}</td></tr>
+ </tbody>
+    </table>
+    </div>
+
+
+  </section>
+<section id="content3">
+   <!--<div class="table-responsive">-->
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Subject</th>
+        <th>Total Questions</th>
+        <th>Correct</th>
+        <th>Incorrect</th>
+        <th>+ve</th>
+        <th>-ve</th>
+		<th>Total Mark</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for subject_wise in subject_wise_array %}
+        <tr>
+            <td>{{ subject_wise.0 }}</td>
+            <td>{{ subject_wise.1 }}</td>
+            <td>{{ subject_wise.2 }}</td>
+            <td>{{ subject_wise.3 }}</td>
+            <td>{{ subject_wise.4 }}</td>
+            <td>{{ subject_wise.5 }}</td>
+            <td>{{ subject_wise.6 }}</td>
+        </tr>
+      {% endfor %}
+	</tbody>
+  </table>
+   <!--</div>-->
+ </section>
+<section id="content4">
+    {% for question in all_questions_utqj %}
+        <div class="custom">
+            <div class="col-md-12 text-right">
+                {% if question.question.id in bookmark_list %}
+                    <button class="btn btn-primary ">
+                        <span class="glyphicon glyphicon-bookmark"></span>
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-default  " data-toggle="modal" data-target="#myModal"
+                    onclick="document.getElementById('question_id').value={{ question.question.id }}">
+                        <span class="glyphicon glyphicon-bookmark"></span>
+                    </button>
+                {% endif %}
+            </div>
+			<form>
+				<h2>Q{{ forloop.counter }}. {{ question.question.Question }}</h2>
+                {% if question.question.Question_Image %}
+                    <img src="{{ question.question.Question_Image.url }}">
+                {% endif %}
+				<div class="form-check">
+					<label>
+                        <span class="label-text">1. {{ question.question.Option_1 }}</span>
+					</label>
+				</div>
+				<div class="form-check">
+					<label>
+                        <span class="label-text">2. {{ question.question.Option_2 }}</span>
+					</label>
+				</div>
+				<div class="form-check">
+					<label>
+                        <span class="label-text">3. {{ question.question.Option_3 }}</span>
+					</label>
+				</div>
+				<div class="form-check">
+					<label>
+                        <span class="label-text">4. {{ question.question.Option_4 }}</span>
+					</label>
+				</div>
+                <h2>Time Taken: <b>{{ question.timetaken }} seconds </b></h2>
+                <h2>Correct option: <b>Option {{ question.question.Correct_option }}</b></h2>
+                <h2>Explanation:</h2>
+                <p><b>{{ question.question.Solution_Explanation }}</b></p>
+			</form>
+</div>
+        <hr>
+    {% endfor %}
+  <!-- The Modal -->
+<form role="form" action="{% url 'dashboard:addbookmark' test_id %}" method="get">
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+       <div class="modal-header">
+          <h4 class="modal-title">Add Your Bookmark</h4>
+        </div>
+        <!-- Modal body -->
+	    <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleInputPassword1">My Bookmarks</label>
+              <input type="input" class="form-control" id="exampleInputPassword1" name="doubt_description" placeholder="Type Your Comments"/>
+              <input type="text" id="question_id" name="question_id" hidden>
+          </div>
+        </div>
+          <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  onclick="document.getElementById('').value = '';">Cancel</button>
+		  <button type="submit" class="btn btn-primary">OK</button>
+        </div>
+      </div>
+    </div>
+   </div>
+</form>
+</section>
+
+</main>
+{% endblock %}
+
+{% block script %}
+<link rel="stylesheet" type="text/css" href="{% static 'dashboard/css/bookMark.css' %}">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(initChart);
+        function initChart() {
+            // initialization of graphs
+            data_1 = [
+              ['Question Number', 'marks']
+            ];
+
+            {% for question in all_questions_utqj %}
+                data_1.push(['{{ forloop.counter }}', {{ question.timetaken }}]);
+            {% endfor %}
+
+            data_1 = google.visualization.arrayToDataTable(data_1);
+            Chart_1 = new google.visualization.ColumnChart(document.getElementById('graph'));
+            Chart_1.draw(data_1, {
+                'title': 'Time Per Question Graph',
+                });
+
+          };
+
+</script>
+{% endblock %}
